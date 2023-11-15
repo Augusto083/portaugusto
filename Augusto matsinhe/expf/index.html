@@ -2,167 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portifoleo</title>
-    <link rel="stylesheet"  href="css/style.css">
+    <title>Interpolação de Newton com Diferenças Finitas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .erro-msg {
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-    <section>
-		
-		
-        <nav>
+    <div class="container">
+        <h1 class="mt-4">Interpolação de Newton com Diferenças Finitas</h1>
 
-            <a href="#" class="logo"> Programacao web</a>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="mt-4">Inserir Dados</h2>
+                <form id="dadosForm">
+                    <div class="form-group">
+                        <label for="valoresX">Valores de X:</label>
+                        <input type="text" class="form-control" id="valoresX" placeholder="Ex: 1.9, 2.0, 2.1, ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="valoresFX">Valores de F(X):</label>
+                        <input type="text" class="form-control" id="valoresFX" placeholder="Ex: 0.42355, 0.47953, ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidadeDiferencas">Quantidade de Diferenças:</label>
+                        <select class="form-control" id="quantidadeDiferencas">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Calcular Diferenças</button>
+                </form>
+            </div>
 
-            <ul> 
-                <li><a href="#" class="active"> Inicio</a></li>
-                <li><a href="#"> Acerca do Curso  </a></li>
-                <li><a href="#">Especialidade</a></li>
-                <li><a href="#">Telefone</a></li>
-            </ul>
-      
-        </nav>
-
-        
-        
-        <div class="conteudo-texto">
-            <p>Bem-Vindos</p>
-            <p>Augusto Matsinhe</p>
-            <p> Informatica <br> </p>
-            <button class="btn1">Saiba mais</button>
-            <button class="btn2">Download CV</button>
-            
-        </div>
-
-
-  <div>
-            	 
-    <img src="bg.png"  alt="imgbg">
-
-  </div>
-
-</section>
-
-
-
-
-
-<div class="conteudo-sobre">
-
-<img src="pngtree-children-s-software-programming-image_2230759.jpg">
-
-<div class="texto-sobre">
-
-<p>Sobre</p>
-    		<p> Informatica  </p>
-
-    		<p>Olá meu nome é Augusto Matsinhe sou estudante da UEM estou a fazer lencenciatura em informatica.</p>
-    		<p>
-    			Na atualidade trabalho como  Explicador na area de Ciencias  e sou apaixonada por tecnologia.
-    		</p>
-
-    		<button class="btn1"> Saiba mais</button>
-    		<button class="btn2"> Download CV</button>
-    		
-
-
-
-    	</div>
-    </div>
-
-
-    
-
-    <div class="servicos">
-
-        <div class="servicos-textos">
-
-            <p>Serviços</p>
-            <p>Como podemos lhe ajudar</p>
-            <p>Através de uma consultoria  no meu site podes ter oportunidade de apreciar os nossos trabalhos.</p>
-            
-        </div>
-
-        <div class="conteudo-box">
-
-
-            <div class="box1">
-                <span>1</span>
-
-                <p class="headid">Web Design</p>
-
-                <p class="detalhes">
-                           Programacao web é uma área focada no desenvolvimento de sites, como layout de sites e aplicativos para a web. Para isso, aprogramacao web criam as páginas usando linguagens de programacao.
-                          <br>
-                          Alguma vez você já esteve navegando por um site, mas se sentiu tentado a sair porque o layout não lhe agradava, assim como a tipografia e a forma como o conteúdo era distribuído?..</p>
-
-                          <button>Saiba mais</button>
-            
-
+            <div class="col-md-6">
+                <div class="resultado">
+                    <h2 id="resultadoTitulo" class="mt-4">Resultados</h2>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>X</th>
+                                <th>F(X)</th>
+                                <th>Diferença 1</th>
+                                <th>Diferença 2</th>
+                                <th>Diferença 3</th>
+                                <th>Diferença 4</th>
+                                <th>Diferença 5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaDiferencas">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="box3">
-            <span>3</span>
-
-            <p class="headid"> Centro de Explicacao</p>
-
-            <p class="detalhes">
-                       
-                      <br>
-                      </p>
-
-                      Sou um explicador dedicado, separo uma parte do meu tempo para  transforma alunos em excelentes alunos, ajudando-os a obter melhores resultados. Com larga experiência na educação, a começar pela gerência, promovemos o saber e o conhecimento
-                      <br>
-                      </p>
-
-                      <button>Saiba mais</button>   
-
-        
-
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mt-4">Calcular Função em um Ponto</h2>
+                <form id="calcularPontoForm">
+                    <div class="form-group">
+                        <label for="pontoX">Calcular F(X) em um Ponto X:</label>
+                        <input type="number" step="0.001" class="form-control" id="pontoX" placeholder="Ex: 2.056">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Calcular F(X)</button>
+                </form>
+                <p id="resultadoPontoX" class="mt-4 erro-msg"></p>
+            </div>
         </div>
-
-    
-        
     </div>
-    
-</div>
 
+    <script>
+         document.getElementById("dadosForm").addEventListener("submit", function (event) {
+            event.preventDefault();
 
+            const valoresX = document.getElementById("valoresX").value.split(',').map(x => parseFloat(x));
+            const valoresFX = document.getElementById("valoresFX").value.split(',').map(fx => parseFloat(fx));
+            const quantidadeDiferencas = parseInt(document.getElementById("quantidadeDiferencas").value);
 
+            if (valoresX.length !== valoresFX.length) {
+                document.getElementById("resultadoTitulo").innerHTML = "Erro: Número de valores X e F(X) não corresponde.";
+                document.getElementById("tabelaDiferencas").style.display = "none";
+            } else {
+                calcularDiferencasFinitas(valoresX, valoresFX, quantidadeDiferencas);
+            }
+        });
 
+        document.getElementById("calcularPontoForm").addEventListener("submit", function (event) {
+            event.preventDefault();
 
-<div class="contato">
-  
-  <p>Se você pricisa dos meus servicos entre em contato comigo!</p>
+            const valoresX = document.getElementById("valoresX").value.split(',').map(x => parseFloat(x));
+            const valoresFX = document.getElementById("valoresFX").value.split(',').map(fx => parseFloat(fx));
+            const pontoX = parseFloat(document.getElementById("pontoX").value);
 
-  <button>Fale comigo</button>
+            if (valoresX.length !== valoresFX.length) {
+                document.getElementById("resultadoPontoX").innerHTML = "Erro: Número de valores X e F(X) não corresponde.";
+            } else {
+                const resultado = calcularFuncaoEmPonto(valoresX, valoresFX, pontoX);
+                document.getElementById("resultadoPontoX").innerHTML = `F(${pontoX}) = ${resultado.toFixed(5)}`;
+            }
+        });
 
+        function calcularDiferencasFinitas(X, FX, n) {
+            const tabelaDiferencas = document.getElementById("tabelaDiferencas");
+            tabelaDiferencas.innerHTML = "";
 
-</div>
+            for (let i = 0; i < X.length; i++) {
+                const linha = document.createElement("tr");
+                linha.innerHTML = `
+                    <td>${X[i]}</td>
+                    <td>${FX[i]}</td>
+                `;
 
+                for (let j = 1; j <= n; j++) {
+                    linha.innerHTML += `<td>${i >= j ? calcularDiferenca(X, FX, i, j).toFixed(5) : ""}</td>`;
+                }
+                tabelaDiferencas.appendChild(linha);
+            }
+            document.getElementById("resultadoTitulo").innerHTML = "Resultados";
+        }
 
+        function calcularDiferenca(X, FX, i, j) {
+            if (j === 1) {
+                return FX[i] - FX[i - 1];
+            } else {
+                return calcularDiferenca(X, FX, i, j - 1) - calcularDiferenca(X, FX, i - 1, j - 1);
+            }
+        }
 
-    <footer>
-      
-      <p>Portal </p>
-      <p>As estratégias de programacao web  iram resolver tos os seus problemas que tem haver com criacao de sites</p>
-      <p class="copy">Programacao Web</p>
+        function calcularFuncaoEmPonto(X, FX, pontoX) {
+            const tabelaDiferencas = document.getElementById("tabelaDiferencas");
+            const n = tabelaDiferencas.rows[0].cells.length - 2;
 
+            if (pontoX === X[0]) {
+                return FX[0];
+            }
 
-    </footer>
+            let resultado = FX[0];
+            let termo = 1;
 
+            for (let i = 1; i <= n; i++) {
+                termo *= (pontoX -X[i -1]) / (i * (X[i] -X[i - 1]));
+                resultado += termo * calcularDiferenca(X, FX, i, i);
+            }
 
-
-
-
-
-
-
-
-</body>
-</html>
-    
+            return resultado;
+        }
+    </script>
 </body>
 </html>
